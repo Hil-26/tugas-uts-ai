@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riwayat Pesanan Saya - Sobat Alam</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigasi Utama -->
+    <header class="navbar">
+        <a href="index.html" class="logo">
+            <i class="fas fa-mountain-sun"></i>
+            <span>Sobat Alam.</span>
+        </a>
+        <nav class="nav-links">
+            <a href="index.html">Beranda</a>
+            <a href="pria.html">Koleksi Pria</a>
+            <a href="wanita.html">Koleksi Wanita</a>
+            <a href="orders.html" class="active">Pesanan Saya</a>
+        </nav>
+        <div class="nav-actions">
+            <a href="cart.html" class="nav-btn-icon" title="Keranjang Belanja">
+                <div class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count">0</span>
+                </div>
+            </a>
+            <div id="user-nav-slot"></div>
+            <button class="mobile-toggle" onclick="toggleMobileMenu()" title="Buka Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="orders-page-wrap">
+        <!-- Page Banner Mini -->
+        <div style="margin-bottom: 25px;">
+            <h2 style="font-size: 1.8rem; font-weight: 800; color: var(--primary-forest);">
+                <i class="fas fa-box-archive" style="color:var(--forest-accent);"></i> Riwayat & Status Pesanan
+            </h2>
+            <p style="color: var(--text-muted); font-size: 0.92rem;">
+                Pantau proses persiapan paket, status ekspedisi pengiriman, dan rincian bukti transaksi Anda.
+            </p>
+        </div>
+
+        <!-- Filter Tab Status Pesanan -->
+        <div class="orders-filter-tabs">
+            <button class="order-tab-btn active" onclick="filterOrdersByStatus('all', this)">Semua Pesanan</button>
+            <button class="order-tab-btn" onclick="filterOrdersByStatus('Diproses', this)">Diproses</button>
+            <button class="order-tab-btn" onclick="filterOrdersByStatus('Dikirim', this)">Dikirim</button>
+            <button class="order-tab-btn" onclick="filterOrdersByStatus('Selesai', this)">Selesai</button>
+            <button class="order-tab-btn" onclick="filterOrdersByStatus('Dibatalkan', this)">Dibatalkan</button>
+        </div>
+
+        <!-- Wadah Daftar Pesanan (Diisi Otomatis oleh app.js) -->
+        <div id="orders-container"></div>
+    </main>
+
+    <!-- Modal Invoice Bukti Pembelian -->
+    <div id="invoice-modal" class="modal-overlay"></div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-bottom">
+            &copy; 2026 Sobat Alam Outdoor Gear. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -2,42 +2,300 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Sobat Alam</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <header class="navbar">
-        <div class="logo">Admin Panel</div>
-        <nav class="nav-links">
-            <a href="#" onclick="logout()">Logout</a>
-        </nav>
+    <!-- Navbar Atas Admin -->
+    <header class="navbar" style="background:#2b1810; border-bottom:1px solid #4a2c20;">
+        <div style="display:flex; align-items:center; gap:16px;">
+            <a href="admin.html" class="logo" style="color:#fff;">
+                <i class="fas fa-mountain-sun" style="color:#f6c88b;"></i>
+                <span>Sobat Alam <small style="font-size:0.75rem; background:rgba(255,255,255,0.15); padding:2px 8px; border-radius:4px; font-weight:600;">Admin Panel</small></span>
+            </a>
+        </div>
+        <div class="nav-actions">
+            <a href="index.html" class="btn btn-sm btn-outline-light" title="Buka Toko Pengunjung" target="_blank">
+                <i class="fas fa-arrow-up-right-from-square"></i> Lihat Toko
+            </a>
+            <button onclick="logout()" class="btn btn-sm btn-primary" title="Keluar">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
     </header>
 
-    <div style="padding: 40px 5%;">
-        <h2>Tambah Barang (Create)</h2>
-        <form id="form-add-product" style="display: flex; gap: 10px; margin-bottom: 30px;">
-            <input type="text" id="prod-name" placeholder="Nama Barang" required>
-            <input type="number" id="prod-price" placeholder="Harga" required>
-            <select id="prod-cat">
-                <option value="pria">Pria</option>
-                <option value="wanita">Wanita</option>
-            </select>
-            <input type="text" id="prod-icon" placeholder="Emoji (cth: ⛺)" required>
-            <button type="submit" class="btn-primary">Upload Barang</button>
-        </form>
+    <div class="admin-layout">
+        <!-- Sidebar Menu Navigasi -->
+        <aside class="admin-sidebar">
+            <div class="admin-sidebar-header">
+                <h3>Navigasi Admin</h3>
+                <p style="font-size:0.78rem; opacity:0.8; margin-top:4px;">Kelola inventaris & transaksi</p>
+            </div>
+            <nav class="admin-nav">
+                <button class="admin-nav-item active" data-tab="products" onclick="switchAdminTab('products')">
+                    <i class="fas fa-boxes-stacked"></i> Kelola Produk
+                </button>
+                <button class="admin-nav-item" data-tab="orders" onclick="switchAdminTab('orders')">
+                    <i class="fas fa-clipboard-list"></i> Pesanan Masuk
+                </button>
+                <button class="admin-nav-item" data-tab="settings" onclick="switchAdminTab('settings')">
+                    <i class="fas fa-sliders"></i> Pemeliharaan Sistem
+                </button>
+            </nav>
+            <div style="margin-top:auto; padding-top:20px; border-top:1px solid rgba(255,255,255,0.1); font-size:0.8rem; opacity:0.7;">
+                Sobat Alam v2.0 Enterprise
+            </div>
+        </aside>
 
-        <h2>Daftar Barang (Read & Delete)</h2>
-        <table border="1" width="100%" cellpadding="10" style="margin-bottom: 40px; text-align: left;">
-            <thead><tr><th>ID</th><th>Ikon</th><th>Nama</th><th>Harga</th><th>Kategori</th><th>Aksi</th></tr></thead>
-            <tbody id="admin-product-list"></tbody>
-        </table>
+        <!-- Main Content Area -->
+        <main class="admin-main">
+            <!-- Statistik Ringkasan (KPI Dashboard) -->
+            <div id="admin-stats" class="admin-stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon green"><i class="fas fa-box-archive"></i></div>
+                    <div class="stat-details">
+                        <h4>Total Produk Aktif</h4>
+                        <div class="stat-number" id="stat-total-products">0</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon orange"><i class="fas fa-cart-shopping"></i></div>
+                    <div class="stat-details">
+                        <h4>Total Pesanan</h4>
+                        <div class="stat-number" id="stat-total-orders">0</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon blue"><i class="fas fa-money-bill-wave"></i></div>
+                    <div class="stat-details">
+                        <h4>Total Omzet Masuk</h4>
+                        <div class="stat-number" id="stat-total-revenue">Rp 0</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon yellow"><i class="fas fa-users"></i></div>
+                    <div class="stat-details">
+                        <h4>Pengguna Terdaftar</h4>
+                        <div class="stat-number" id="stat-total-users">0</div>
+                    </div>
+                </div>
+            </div>
 
-        <h2>Status Pembayaran Pembeli</h2>
-        <table border="1" width="100%" cellpadding="10" style="text-align: left;">
-            <thead><tr><th>ID Order</th><th>Pembeli</th><th>Total Pembayaran</th><th>Status</th></tr></thead>
-            <tbody id="admin-order-list"></tbody>
-        </table>
+            <!-- TAB 1: KELOLA PRODUK (CRUD) -->
+            <section id="admin-sec-products">
+                <div class="table-container">
+                    <div class="table-header-bar">
+                        <div>
+                            <h3>Inventaris & Katalog Produk</h3>
+                            <p style="font-size:0.85rem; color:var(--text-muted);">Tambah produk baru, ubah rincian harga/stok, atau hapus item</p>
+                        </div>
+                        <div style="display:flex; gap:12px; align-items:center;">
+                            <input type="text" id="admin-prod-search" class="form-control" placeholder="Cari produk..." oninput="renderAdminProductsList()" style="width:220px; padding:8px 12px;">
+                            <button class="btn btn-sm btn-primary" onclick="openModal('modal-add-product')">
+                                <i class="fas fa-plus"></i> Tambah Produk Baru
+                            </button>
+                        </div>
+                    </div>
+
+                    <div style="overflow-x:auto;">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Foto</th>
+                                    <th>Nama Produk & Tipe</th>
+                                    <th>Harga</th>
+                                    <th>Stok</th>
+                                    <th>Rating</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-product-table-body">
+                                <!-- Data diisi oleh app.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: KELOLA PESANAN & TRANSAKSI -->
+            <section id="admin-sec-orders" style="display:none;">
+                <div class="table-container">
+                    <div class="table-header-bar">
+                        <div>
+                            <h3>Daftar Pesanan & Transaksi Pembeli</h3>
+                            <p style="font-size:0.85rem; color:var(--text-muted);">Pantau status pembayaran dan perbarui tahapan pengiriman</p>
+                        </div>
+                    </div>
+
+                    <div style="overflow-x:auto;">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>No. Invoice</th>
+                                    <th>Pembeli & Kontak</th>
+                                    <th>Rincian Barang</th>
+                                    <th>Total Bayar</th>
+                                    <th>Status Pesanan</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-orders-table-body">
+                                <!-- Data diisi oleh app.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: PENGATURAN & RESET SISTEM -->
+            <section id="admin-sec-settings" style="display:none;">
+                <div class="table-container" style="padding:30px;">
+                    <h3 style="color:var(--primary-forest); margin-bottom:12px;">Pemeliharaan Sistem & Demo Data</h3>
+                    <p style="color:var(--text-secondary); margin-bottom:24px; font-size:0.92rem;">
+                        Jika Anda ingin mengembalikan data produk ke katalog bawaan awal atau mengosongkan riwayat pesanan uji coba untuk presentasi, gunakan tombol di bawah ini:
+                    </p>
+                    <button class="btn btn-outline-forest" onclick="resetDatabaseToDefault()" style="border-color:var(--danger); color:var(--danger);">
+                        <i class="fas fa-rotate"></i> Reset Database ke Kondisi Default Demo
+                    </button>
+                </div>
+            </section>
+        </main>
     </div>
+
+    <!-- MODAL TAMBAH PRODUK BARU -->
+    <div id="modal-add-product" class="modal-overlay">
+        <div class="modal-box" style="max-width: 650px;">
+            <button class="modal-close-btn" onclick="closeModal('modal-add-product')"><i class="fas fa-times"></i></button>
+            <div style="padding: 26px;">
+                <h3 style="color:var(--primary-forest); font-size:1.35rem; margin-bottom:16px;">
+                    <i class="fas fa-circle-plus" style="color:var(--forest-accent);"></i> Tambah Produk Baru
+                </h3>
+                <form id="form-add-product">
+                    <div class="form-group">
+                        <label for="prod-name">Nama Produk</label>
+                        <input type="text" id="prod-name" class="form-control" placeholder="Contoh: Tenda Ultralight Pro 2P" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="prod-price">Harga (Rupiah)</label>
+                            <input type="number" id="prod-price" class="form-control" placeholder="Contoh: 850000" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="prod-stock">Jumlah Stok</label>
+                            <input type="number" id="prod-stock" class="form-control" placeholder="Contoh: 15" value="10" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="prod-cat">Kategori Gender</label>
+                            <select id="prod-cat" class="form-control">
+                                <option value="pria">Pria</option>
+                                <option value="wanita">Wanita</option>
+                                <option value="unisex">Unisex / Umum</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="prod-type">Tipe Produk</label>
+                            <select id="prod-type" class="form-control">
+                                <option value="tenda">Tenda & Shelter</option>
+                                <option value="carrier">Tas Carrier</option>
+                                <option value="sepatu">Sepatu Trekking</option>
+                                <option value="pakaian">Pakaian & Jaket</option>
+                                <option value="alat">Alat Camping & Masak</option>
+                                <option value="aksesoris">Aksesoris & Matras</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="prod-img">URL Gambar Produk (Link Online)</label>
+                        <input type="url" id="prod-img" class="form-control" placeholder="https://images.unsplash.com/photo-..." value="https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?w=600&q=80" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="prod-desc">Deskripsi & Spesifikasi Produk</label>
+                        <textarea id="prod-desc" class="form-control" rows="3" placeholder="Jelaskan fitur unggulan, bahan, dan kapasitas produk..."></textarea>
+                    </div>
+                    <div style="display:flex; justify-content:flex-end; gap:12px; margin-top:20px;">
+                        <button type="button" class="btn btn-outline-forest" onclick="closeModal('modal-add-product')">Batal</button>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Simpan Produk</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL EDIT PRODUK (UPDATE) -->
+    <div id="modal-edit-product" class="modal-overlay">
+        <div class="modal-box" style="max-width: 650px;">
+            <button class="modal-close-btn" onclick="closeModal('modal-edit-product')"><i class="fas fa-times"></i></button>
+            <div style="padding: 26px;">
+                <h3 style="color:var(--primary-forest); font-size:1.35rem; margin-bottom:16px;">
+                    <i class="fas fa-pen-to-square" style="color:var(--forest-accent);"></i> Edit Data Produk
+                </h3>
+                <form id="form-edit-product">
+                    <input type="hidden" id="edit-prod-id">
+                    <div class="form-group">
+                        <label for="edit-prod-name">Nama Produk</label>
+                        <input type="text" id="edit-prod-name" class="form-control" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edit-prod-price">Harga (Rupiah)</label>
+                            <input type="number" id="edit-prod-price" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-prod-stock">Jumlah Stok</label>
+                            <input type="number" id="edit-prod-stock" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edit-prod-cat">Kategori Gender</label>
+                            <select id="edit-prod-cat" class="form-control">
+                                <option value="pria">Pria</option>
+                                <option value="wanita">Wanita</option>
+                                <option value="unisex">Unisex / Umum</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-prod-type">Tipe Produk</label>
+                            <select id="edit-prod-type" class="form-control">
+                                <option value="tenda">Tenda & Shelter</option>
+                                <option value="carrier">Tas Carrier</option>
+                                <option value="sepatu">Sepatu Trekking</option>
+                                <option value="pakaian">Pakaian & Jaket</option>
+                                <option value="alat">Alat Camping & Masak</option>
+                                <option value="aksesoris">Aksesoris & Matras</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-prod-img">URL Gambar Produk</label>
+                        <input type="url" id="edit-prod-img" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-prod-desc">Deskripsi Produk</label>
+                        <textarea id="edit-prod-desc" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div style="display:flex; justify-content:flex-end; gap:12px; margin-top:20px;">
+                        <button type="button" class="btn btn-outline-forest" onclick="closeModal('modal-edit-product')">Batal</button>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Perbarui Produk</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Detail Pesanan Khusus Admin (Tetap di Admin Panel) -->
+    <div id="admin-order-modal" class="modal-overlay"></div>
+
+    <!-- Modal Invoice Bukti Pembelian -->
+    <div id="invoice-modal" class="modal-overlay"></div>
 
     <script src="app.js"></script>
 </body>

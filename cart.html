@@ -2,42 +2,178 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Keranjang | Sobat Alam</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keranjang Belanja & Checkout - Sobat Alam</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- Navigasi Utama -->
     <header class="navbar">
-        <div class="logo">Sobat Alam.</div>
+        <a href="index.html" class="logo">
+            <i class="fas fa-mountain-sun"></i>
+            <span>Sobat Alam.</span>
+        </a>
         <nav class="nav-links">
             <a href="index.html">Beranda</a>
-            <a href="#" onclick="logout()" style="color: #D84315;">Logout</a>
+            <a href="pria.html">Koleksi Pria</a>
+            <a href="wanita.html">Koleksi Wanita</a>
+            <a href="orders.html">Pesanan Saya</a>
         </nav>
+        <div class="nav-actions">
+            <a href="cart.html" class="nav-btn-icon" title="Keranjang Belanja" style="color:var(--earth-orange);">
+                <div class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count">0</span>
+                </div>
+            </a>
+            <div id="user-nav-slot"></div>
+            <button class="mobile-toggle" onclick="toggleMobileMenu()" title="Buka Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
     </header>
 
-    <div style="padding: 40px 5%; min-height: 80vh;">
-        <h2 style="margin-bottom: 30px;">Keranjang Belanja</h2>
-        
-        <div class="cart-wrapper">
-            <!-- Daftar Barang (Kiri) -->
-            <div class="cart-items" id="cart-list">
-                <!-- Data akan dimuat dari JS -->
+    <main class="cart-page-wrap">
+        <!-- Stepper Indicator -->
+        <div class="checkout-steps">
+            <div class="step-item active">
+                <div class="step-badge">1</div>
+                <span>Daftar Belanja</span>
             </div>
-
-            <!-- Ringkasan (Kanan) -->
-            <div class="cart-summary">
-                <h3>Ringkasan Pesanan</h3>
-                <div class="summary-row">
-                    <span>Total Harga</span>
-                    <span id="cart-total">Rp 0</span>
-                </div>
-                <button onclick="checkout()" class="btn-primary" style="width: 100%; padding: 15px; font-size: 1.1rem;">
-                    Bayar Sekarang
-                </button>
+            <div class="step-divider"></div>
+            <div class="step-item active">
+                <div class="step-badge">2</div>
+                <span>Informasi Pengiriman</span>
+            </div>
+            <div class="step-divider"></div>
+            <div class="step-item">
+                <div class="step-badge">3</div>
+                <span>Konfirmasi Pembayaran</span>
             </div>
         </div>
-    </div>
+
+        <div class="cart-layout">
+            <!-- Kolom Kiri: Item Keranjang & Form Pengiriman -->
+            <div class="cart-card-container">
+                <div style="background:#fff; border-radius:var(--radius-md); border:1px solid var(--border-color); padding:20px; box-shadow:var(--shadow-sm);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                        <h3 style="font-size:1.2rem; color:var(--primary-forest); font-weight:800;">
+                            <i class="fas fa-shopping-basket" style="color:var(--forest-accent);"></i> Barang dalam Keranjang
+                        </h3>
+                    </div>
+                    <!-- List Item Keranjang dari JS -->
+                    <div id="cart-list"></div>
+                </div>
+
+                <!-- Form Pengiriman & Kontak Pembeli -->
+                <div style="background:#fff; border-radius:var(--radius-md); border:1px solid var(--border-color); padding:24px; box-shadow:var(--shadow-sm); margin-top:10px;">
+                    <h3 style="font-size:1.15rem; color:var(--primary-forest); font-weight:800; margin-bottom:16px; border-bottom:1px solid var(--border-color); padding-bottom:10px;">
+                        <i class="fas fa-truck-ramp-box" style="color:var(--forest-accent);"></i> Data Pengiriman & Penerima
+                    </h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="checkout-name"><i class="fas fa-user"></i> Nama Lengkap Penerima</label>
+                            <input type="text" id="checkout-name" class="form-control" placeholder="Contoh: Budi Petualang" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="checkout-phone"><i class="fas fa-phone"></i> Nomor WhatsApp / HP</label>
+                            <input type="tel" id="checkout-phone" class="form-control" placeholder="08123456789" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkout-address"><i class="fas fa-map-location-dot"></i> Alamat Lengkap Tujuan</label>
+                        <textarea id="checkout-address" class="form-control" rows="3" placeholder="Nama Jalan, Nomor Rumah, RT/RW, Kecamatan, Kota, Kode Pos" required></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="checkout-courier"><i class="fas fa-dolly"></i> Layanan Ekspedisi Kurir</label>
+                            <select id="checkout-courier" class="form-control" onchange="renderCartPage()">
+                                <option value="18000">JNE Reguler (Rp 18.000) &bull; 2-3 Hari</option>
+                                <option value="25000">SiCepat BEST Kilat (Rp 25.000) &bull; 1-2 Hari</option>
+                                <option value="20000">J&T Express (Rp 20.000) &bull; 2-3 Hari</option>
+                                <option value="45000">JTR Cargo Tenda/Carrier (Rp 45.000) &bull; 3-5 Hari</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="checkout-payment"><i class="fas fa-credit-card"></i> Metode Pembayaran</label>
+                            <select id="checkout-payment" class="form-control">
+                                <option value="qris">QRIS / GoPay / OVO (Instan & Bebas Biaya)</option>
+                                <option value="bca">Transfer Bank BCA (Virtual Account)</option>
+                                <option value="mandiri">Transfer Bank Mandiri</option>
+                                <option value="cod">COD (Bayar Tunai di Tempat)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kolom Kanan: Kupon Diskon & Ringkasan Pesanan (Sticky) -->
+            <div class="checkout-panel">
+                <h3>Ringkasan Pembayaran</h3>
+
+                <!-- Input Voucher Kupon -->
+                <div class="coupon-box">
+                    <input type="text" id="coupon-input" placeholder="KODE VOUCHER">
+                    <button type="button" onclick="applyCoupon()">Gunakan</button>
+                </div>
+                <div id="coupon-status-box"></div>
+                <div style="font-size:0.78rem; color:var(--text-muted); margin-top:-10px; margin-bottom:18px;">
+                    <i class="fas fa-tags" style="color:var(--forest-accent);"></i> Tips: Gunakan kode <b>SOBATALAM</b> (Diskon 10%)
+                </div>
+
+                <!-- Breakdown Biaya -->
+                <div class="summary-line">
+                    <span>Subtotal Produk</span>
+                    <span id="cart-subtotal" style="font-weight:600;">Rp 0</span>
+                </div>
+                <div class="summary-line" style="color:var(--earth-orange);">
+                    <span>Diskon Voucher</span>
+                    <span id="cart-discount" style="font-weight:600;">- Rp 0</span>
+                </div>
+                <div class="summary-line">
+                    <span>Ongkos Kirim</span>
+                    <span id="cart-shipping" style="font-weight:600;">Rp 18.000</span>
+                </div>
+                <div class="summary-line total">
+                    <span>Total Tagihan</span>
+                    <span id="cart-total">Rp 0</span>
+                </div>
+
+                <div style="margin-top:24px;">
+                    <button type="button" onclick="checkout(event)" class="btn btn-primary btn-block" style="padding:14px; font-size:1rem;">
+                        <i class="fas fa-lock"></i> Bayar Sekarang
+                    </button>
+                    <a href="index.html" class="btn btn-outline-forest btn-block" style="margin-top:10px; text-align:center; padding:10px;">
+                        <i class="fas fa-arrow-left"></i> Lanjut Belanja
+                    </a>
+                </div>
+
+                <!-- Keamanan Transaksi -->
+                <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border-color); display:flex; flex-direction:column; gap:8px; font-size:0.78rem; color:var(--text-muted);">
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        <i class="fas fa-shield-check" style="color:var(--forest-accent);"></i> Transaksi Aman Bergaransi Resmi
+                    </div>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        <i class="fas fa-truck-fast" style="color:var(--forest-accent);"></i> Pengiriman Dikemas Bubble Wrap Tebal
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Invoice Bukti Pembelian -->
+    <div id="invoice-modal" class="modal-overlay"></div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-bottom">
+            &copy; 2026 Sobat Alam Outdoor Gear. All rights reserved.
+        </div>
+    </footer>
 
     <script src="app.js"></script>
 </body>

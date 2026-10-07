@@ -2,19 +2,143 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Login | Sobat Alam</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masuk & Daftar Akun - Sobat Alam</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body style="display: flex; justify-content: center; align-items: center; height: 100vh;">
-    <div class="card" style="padding: 40px; background: white; border-radius: 8px;">
-        <h2>Login Sistem</h2>
-        <p>Admin: admin/123 | User: user/123</p>
-        <form id="login-form" style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
-            <input type="text" id="username" placeholder="Username" required style="padding: 10px;">
-            <input type="password" id="password" placeholder="Password" required style="padding: 10px;">
-            <button type="submit" class="btn-primary">Masuk</button>
-        </form>
+<body>
+    <div class="auth-page-wrapper">
+        <div class="auth-card">
+            <!-- Header Kartu -->
+            <div class="auth-card-header">
+                <a href="index.html" class="logo">
+                    <i class="fas fa-mountain-sun"></i>
+                    <span>Sobat Alam.</span>
+                </a>
+                <p>Portal Masuk & Pendaftaran Sobat Petualang</p>
+            </div>
+
+            <!-- Tab Masuk / Daftar -->
+            <div class="auth-tabs">
+                <button class="auth-tab-btn active" id="tab-login-btn" onclick="switchAuthTab('login')">
+                    <i class="fas fa-sign-in-alt"></i> Masuk
+                </button>
+                <button class="auth-tab-btn" id="tab-register-btn" onclick="switchAuthTab('register')">
+                    <i class="fas fa-user-plus"></i> Daftar Akun
+                </button>
+            </div>
+
+            <!-- Form Masuk (Login) -->
+            <div class="auth-form" id="form-login-section">
+                <!-- Tombol Uji Coba Cepat (Demo Akun) -->
+                <div class="demo-account-box">
+                    <div class="demo-title"><i class="fas fa-key"></i> Akses Cepat Demo Akun:</div>
+                    <div style="font-size:0.75rem; color:var(--text-secondary); margin-bottom:4px;">Klik untuk langsung masuk tanpa mengetik:</div>
+                    <div class="demo-btns">
+                        <button type="button" class="btn-demo" onclick="quickLogin('admin')">
+                            <i class="fas fa-user-shield"></i> Demo Admin
+                        </button>
+                        <button type="button" class="btn-demo" onclick="quickLogin('user')">
+                            <i class="fas fa-user"></i> Demo Petualang
+                        </button>
+                    </div>
+                </div>
+
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="username"><i class="fas fa-user"></i> Username</label>
+                        <input type="text" id="username" class="form-control" placeholder="admin atau user" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password"><i class="fas fa-lock"></i> Kata Sandi</label>
+                        <div style="position:relative;">
+                            <input type="password" id="password" class="form-control" placeholder="123" required>
+                            <button type="button" onclick="togglePasswordVisibility('password')" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--text-muted); cursor:pointer;">
+                                <i class="fas fa-eye" id="password-toggle-icon"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block" style="padding:12px; margin-top:20px;">
+                        Masuk ke Akun
+                    </button>
+                </form>
+
+                <div style="text-align:center; margin-top:16px;">
+                    <a href="index.html" style="font-size:0.84rem; color:var(--forest-accent); font-weight:600;">
+                        <i class="fas fa-arrow-left"></i> Kembali Menjelajah Toko
+                    </a>
+                </div>
+            </div>
+
+            <!-- Form Pendaftaran (Register) -->
+            <div class="auth-form" id="form-register-section" style="display:none;">
+                <form id="register-form">
+                    <div class="form-group">
+                        <label for="reg-fullname"><i class="fas fa-id-card"></i> Nama Lengkap</label>
+                        <input type="text" id="reg-fullname" class="form-control" placeholder="Contoh: Rian Anggara" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-username"><i class="fas fa-user"></i> Username Pilihan</label>
+                        <input type="text" id="reg-username" class="form-control" placeholder="Contoh: rian26" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-password"><i class="fas fa-lock"></i> Kata Sandi Baru</label>
+                        <input type="password" id="reg-password" class="form-control" placeholder="Minimal 3 karakter" required>
+                    </div>
+                    <button type="submit" class="btn btn-forest btn-block" style="padding:12px; margin-top:20px;">
+                        Daftar & Langsung Masuk
+                    </button>
+                </form>
+
+                <div style="text-align:center; margin-top:16px;">
+                    <span style="font-size:0.84rem; color:var(--text-muted);">Sudah punya akun? </span>
+                    <a href="javascript:void(0)" onclick="switchAuthTab('login')" style="font-size:0.84rem; color:var(--primary-forest); font-weight:700;">
+                        Masuk di sini
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!-- Script Utama -->
     <script src="app.js"></script>
+    <script>
+        function switchAuthTab(tab) {
+            const loginSec = document.getElementById('form-login-section');
+            const regSec = document.getElementById('form-register-section');
+            const loginBtn = document.getElementById('tab-login-btn');
+            const regBtn = document.getElementById('tab-register-btn');
+
+            if (tab === 'login') {
+                loginSec.style.display = 'block';
+                regSec.style.display = 'none';
+                loginBtn.classList.add('active');
+                regBtn.classList.remove('active');
+            } else {
+                loginSec.style.display = 'none';
+                regSec.style.display = 'block';
+                regBtn.classList.add('active');
+                loginBtn.classList.remove('active');
+            }
+        }
+
+        function togglePasswordVisibility(fieldId) {
+            const field = document.getElementById(fieldId);
+            const icon = document.getElementById('password-toggle-icon');
+            if (field.type === 'password') {
+                field.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                field.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+    </script>
 </body>
 </html>

@@ -3,40 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Koleksi Wanita | Sobat Alam</title>
+    <title>Koleksi Wanita - Sobat Alam</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- Navigasi Utama -->
     <header class="navbar">
-        <div class="logo">Sobat Alam.</div>
+        <a href="index.html" class="logo">
+            <i class="fas fa-mountain-sun"></i>
+            <span>Sobat Alam.</span>
+        </a>
         <nav class="nav-links">
             <a href="index.html">Beranda</a>
-            <a href="pria.html">Pria</a>
-            <a href="wanita.html" class="active">Wanita</a>
-            <a href="#" onclick="logout()" style="color: #D84315;">Logout</a>
+            <a href="pria.html">Koleksi Pria</a>
+            <a href="wanita.html" class="active">Koleksi Wanita</a>
+            <a href="orders.html">Pesanan Saya</a>
         </nav>
-        <div class="nav-icons">
-            <i class="fas fa-search"></i>
-            <a href="cart.html" style="text-decoration: none; color: inherit;">
+        <div class="nav-actions">
+            <a href="cart.html" class="nav-btn-icon" title="Keranjang Belanja">
                 <div class="cart-icon">
                     <i class="fas fa-shopping-cart"></i>
                     <span id="cart-count">0</span>
                 </div>
             </a>
+            <div id="user-nav-slot"></div>
+            <button class="mobile-toggle" onclick="toggleMobileMenu()" title="Buka Menu">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </header>
 
-    <section class="products" style="padding-top: 40px; min-height: 70vh;">
-        <h2>Koleksi Wanita</h2>
-        <!-- data-category="wanita" memanggil barang yang dikategorikan wanita oleh admin -->
-        <div id="product-grid" class="product-grid" data-category="wanita"></div>
-    </section>
+    <main>
+        <!-- Page Banner -->
+        <section class="page-banner" style="background: linear-gradient(135deg, #4e342e 0%, #2e1c12 100%);">
+            <div class="page-banner-content">
+                <span class="page-banner-badge" style="background: rgba(224, 122, 95, 0.3); color:#fff;">
+                    <i class="fas fa-person-hiking"></i> Women's Outdoor Series
+                </span>
+                <h1>Koleksi Pendaki Wanita</h1>
+                <p>Kombinasi sempurna antara kenyamanan anatomi, bobot ringan (ultralight), serta ketahanan cuaca ekstrim untuk petualang wanita aktif.</p>
+                <div class="breadcrumb">
+                    <a href="index.html">Beranda</a>
+                    <i class="fas fa-chevron-right" style="font-size: 0.7rem;"></i>
+                    <span>Koleksi Wanita</span>
+                </div>
+            </div>
+        </section>
 
+        <!-- Filter & Search Bar Section -->
+        <section class="catalog-toolbar">
+            <div class="toolbar-top">
+                <div class="search-input-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="catalog-search" placeholder="Cari perlengkapan wanita...">
+                </div>
+                <div class="toolbar-filters">
+                    <select id="catalog-sort" class="sort-select">
+                        <option value="featured">Rekomendasi Terbaik</option>
+                        <option value="price-low">Harga: Termurah ke Termahal</option>
+                        <option value="price-high">Harga: Termahal ke Termurah</option>
+                        <option value="rating">Rating Tertinggi</option>
+                        <option value="name">Nama: A - Z</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Category Pills Filter -->
+            <div class="category-pills">
+                <button class="cat-pill active" data-type="all">
+                    <i class="fas fa-border-all"></i> Semua Kategori
+                </button>
+                <button class="cat-pill" data-type="pakaian">
+                    <i class="fas fa-vest"></i> Jaket & Apparel
+                </button>
+                <button class="cat-pill" data-type="sepatu">
+                    <i class="fas fa-shoe-prints"></i> Sepatu Hiking Lite
+                </button>
+                <button class="cat-pill" data-type="carrier">
+                    <i class="fas fa-hiking"></i> Daypack Ergonomis
+                </button>
+                <button class="cat-pill" data-type="aksesoris">
+                    <i class="fas fa-compass"></i> Tongkat & Hammock
+                </button>
+                <button class="cat-pill" data-type="alat">
+                    <i class="fas fa-lightbulb"></i> Lampu & Alat
+                </button>
+            </div>
+        </section>
+
+        <!-- Product Grid Section -->
+        <section class="products-section">
+            <div class="section-header">
+                <div>
+                    <h2>Produk Pendaki Wanita</h2>
+                    <p id="product-result-count">Memuat katalog...</p>
+                </div>
+            </div>
+            <!-- Grid produk khusus wanita -->
+            <div id="product-grid" class="product-grid" data-category="wanita"></div>
+        </section>
+    </main>
+
+    <!-- Modal Container untuk Quick View Produk -->
+    <div id="product-detail-modal" class="modal-overlay"></div>
+
+    <!-- Footer -->
     <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <a href="index.html" class="logo" style="color:#fff; margin-bottom:14px; display:inline-flex;">
+                    <i class="fas fa-mountain-sun" style="color:#8d6e63;"></i> Sobat Alam.
+                </a>
+                <p>Perlengkapan outdoor ultralight dan ergonomis untuk petualang wanita nusantara.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Navigasi</h4>
+                <ul class="footer-links-list">
+                    <li><a href="index.html">Beranda</a></li>
+                    <li><a href="pria.html">Koleksi Pria</a></li>
+                    <li><a href="wanita.html">Koleksi Wanita</a></li>
+                    <li><a href="orders.html">Lacak Pesanan</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Layanan</h4>
+                <ul class="footer-links-list">
+                    <li><a href="#">Garansi Resmi Produk</a></li>
+                    <li><a href="#">Pengembalian 30 Hari</a></li>
+                    <li><a href="#">Panduan Ukuran Sepatu & Jaket</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Kontak Toko</h4>
+                <p><i class="fas fa-envelope"></i> support@sobatalam.id</p>
+                <p><i class="fas fa-phone"></i> (022) 7890-1234</p>
+            </div>
+        </div>
         <div class="footer-bottom">
-            &copy; 2026 Sobat Alam. All rights reserved.
+            &copy; 2026 Sobat Alam Outdoor Gear. All rights reserved.
         </div>
     </footer>
 

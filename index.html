@@ -3,72 +3,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sobat Alam | Beranda</title>
+    <title>Sobat Alam - Perlengkapan Camping & Outdoor Terbaik</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <!-- Navigasi Utama -->
     <header class="navbar">
-        <div class="logo">Sobat Alam.</div>
+        <a href="index.html" class="logo">
+            <i class="fas fa-mountain-sun"></i>
+            <span>Sobat Alam.</span>
+        </a>
         <nav class="nav-links">
             <a href="index.html" class="active">Beranda</a>
-            <a href="pria.html">Pria</a>
-            <a href="wanita.html">Wanita</a>
-            <a href="#" onclick="logout()" style="color: #D84315;">Logout</a>
+            <a href="pria.html">Koleksi Pria</a>
+            <a href="wanita.html">Koleksi Wanita</a>
+            <a href="orders.html">Pesanan Saya</a>
         </nav>
-        <div class="nav-icons">
-            <i class="fas fa-search" title="Cari Produk"></i>
-            <!-- Link menuju halaman keranjang -->
-            <a href="cart.html" style="text-decoration: none; color: inherit;">
-                <div class="cart-icon" title="Keranjang Belanja">
+        <div class="nav-actions">
+            <!-- Link Keranjang Belanja -->
+            <a href="cart.html" class="nav-btn-icon" title="Keranjang Belanja">
+                <div class="cart-icon">
                     <i class="fas fa-shopping-cart"></i>
                     <span id="cart-count">0</span>
                 </div>
             </a>
+            <!-- Slot Profil Pengguna / Tombol Masuk -->
+            <div id="user-nav-slot"></div>
+            <!-- Tombol Menu Mobile -->
+            <button class="mobile-toggle" onclick="toggleMobileMenu()" title="Buka Menu">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </header>
 
-    <!-- Hero Banner -->
-    <section class="hero">
-        <div class="hero-text">
-            <h1>Siap Untuk Petualangan Baru?</h1>
-            <p>Lengkapi kebutuhan mendaki dan camping Anda dengan perlengkapan kualitas terbaik.</p>
-        </div>
-    </section>
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-pill">
+                    <i class="fas fa-fire"></i> Koleksi Musim Pendakian 2026
+                </div>
+                <h1>Taklukkan Puncak Impian Bersama <span>Sobat Alam</span></h1>
+                <p>Temukan tenda badai, tas carrier ergonomis, sepatu trekking vibram, dan perlengkapan camping berkualitas tinggi untuk keselamatan dan kenyamanan petualangan Anda.</p>
+                <div class="hero-cta">
+                    <a href="#katalog" class="btn btn-primary">
+                        <i class="fas fa-compass"></i> Jelajahi Produk
+                    </a>
+                    <a href="pria.html" class="btn btn-outline-light">
+                        Koleksi Pria
+                    </a>
+                    <a href="wanita.html" class="btn btn-outline-light">
+                        Koleksi Wanita
+                    </a>
+                </div>
+            </div>
+        </section>
 
-    <!-- Kategori Tambahan -->
-    <section class="categories">
-        <div class="cat-card">Tenda & Shelter</div>
-        <div class="cat-card">Tas Carrier</div>
-        <div class="cat-card">Sepatu Trekking</div>
-        <div class="cat-card">Aksesoris</div>
-    </section>
+        <!-- Features Bar (Keunggulan) -->
+        <section class="features-bar">
+            <div class="feature-box">
+                <i class="fas fa-shield-halved"></i>
+                <div>
+                    <h4>100% Original & Kuat</h4>
+                    <p>Material standar pendakian internasional</p>
+                </div>
+            </div>
+            <div class="feature-box">
+                <i class="fas fa-truck-fast"></i>
+                <div>
+                    <h4>Pengiriman Cepat</h4>
+                    <p>Bebas ongkir ke seluruh Indonesia</p>
+                </div>
+            </div>
+            <div class="feature-box">
+                <i class="fas fa-arrow-rotate-left"></i>
+                <div>
+                    <h4>Garansi Tukar 30 Hari</h4>
+                    <p>Jaminan kepuasan tanpa ribet</p>
+                </div>
+            </div>
+            <div class="feature-box">
+                <i class="fas fa-headset"></i>
+                <div>
+                    <h4>Konsultasi Outdoor 24/7</h4>
+                    <p>Dipandu tim pendaki berpengalaman</p>
+                </div>
+            </div>
+        </section>
 
-    <!-- Produk Section (Data akan diisi otomatis oleh app.js) -->
-    <section class="products">
-        <h2>Semua Koleksi Terbaru</h2>
-        <!-- data-category="all" memanggil semua barang -->
-        <div id="product-grid" class="product-grid" data-category="all"></div>
-    </section>
+        <!-- Filter & Search Bar Section -->
+        <section class="catalog-toolbar" id="katalog">
+            <div class="toolbar-top">
+                <div class="search-input-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="catalog-search" placeholder="Cari tenda, carrier, jaket, sepatu...">
+                </div>
+                <div class="toolbar-filters">
+                    <select id="catalog-sort" class="sort-select">
+                        <option value="featured">Rekomendasi Terbaik</option>
+                        <option value="price-low">Harga: Termurah ke Termahal</option>
+                        <option value="price-high">Harga: Termahal ke Termurah</option>
+                        <option value="rating">Rating Tertinggi</option>
+                        <option value="name">Nama: A - Z</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Category Pills Filter -->
+            <div class="category-pills">
+                <button class="cat-pill active" data-type="all">
+                    <i class="fas fa-border-all"></i> Semua Produk
+                </button>
+                <button class="cat-pill" data-type="tenda">
+                    <i class="fas fa-campground"></i> Tenda & Shelter
+                </button>
+                <button class="cat-pill" data-type="carrier">
+                    <i class="fas fa-hiking"></i> Tas Carrier
+                </button>
+                <button class="cat-pill" data-type="sepatu">
+                    <i class="fas fa-shoe-prints"></i> Sepatu Trekking
+                </button>
+                <button class="cat-pill" data-type="pakaian">
+                    <i class="fas fa-vest"></i> Pakaian & Jaket
+                </button>
+                <button class="cat-pill" data-type="alat">
+                    <i class="fas fa-fire-burner"></i> Alat Masak & Lampu
+                </button>
+                <button class="cat-pill" data-type="aksesoris">
+                    <i class="fas fa-compass"></i> Aksesoris & Matras
+                </button>
+            </div>
+        </section>
+
+        <!-- Product Grid Section -->
+        <section class="products-section">
+            <div class="section-header">
+                <div>
+                    <h2>Koleksi Perlengkapan Pilihan</h2>
+                    <p id="product-result-count">Memuat koleksi outdoor terbaik...</p>
+                </div>
+            </div>
+            <!-- Grid produk dinamis -->
+            <div id="product-grid" class="product-grid" data-category="all"></div>
+        </section>
+    </main>
+
+    <!-- Modal Container untuk Quick View Produk -->
+    <div id="product-detail-modal" class="modal-overlay"></div>
 
     <!-- Footer -->
     <footer>
-        <div class="footer-content">
-            <div class="footer-brand">Sobat Alam.</div>
-            <div class="footer-links">
-                <p>Tentang Kami</p>
-                <p>Cara Pembelian</p>
-                <p>Kebijakan Pengembalian</p>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <a href="index.html" class="logo" style="color:#fff; margin-bottom:14px; display:inline-flex;">
+                    <i class="fas fa-mountain-sun" style="color:#8d6e63;"></i> Sobat Alam.
+                </a>
+                <p>Penyedia perlengkapan camping, hiking, dan mountaineering terpercaya di Indonesia. Didesain untuk ketahanan maksimal di alam liar nusantara.</p>
+                <div class="footer-socials">
+                    <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="#" title="TikTok"><i class="fab fa-tiktok"></i></a>
+                    <a href="#" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Kategori Utama</h4>
+                <ul class="footer-links-list">
+                    <li><a href="index.html">Tenda Dome & Shelter</a></li>
+                    <li><a href="index.html">Tas Carrier & Daypack</a></li>
+                    <li><a href="pria.html">Koleksi Pendaki Pria</a></li>
+                    <li><a href="wanita.html">Koleksi Pendaki Wanita</a></li>
+                    <li><a href="index.html">Peralatan Masak & Sleeping Bag</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Bantuan & Layanan</h4>
+                <ul class="footer-links-list">
+                    <li><a href="orders.html">Lacak Pesanan</a></li>
+                    <li><a href="cart.html">Keranjang Belanja</a></li>
+                    <li><a href="#">Panduan Ukuran Sepatu</a></li>
+                    <li><a href="#">Kebijakan Garansi & Retur</a></li>
+                    <li><a href="#">Tips Merawat Perlengkapan</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Hubungi Kami</h4>
+                <p><i class="fas fa-map-marker-alt" style="color:var(--forest-accent); margin-right:8px;"></i> Jl. Rimba Raya No. 88, Bandung, Jawa Barat</p>
+                <p><i class="fas fa-phone" style="color:var(--forest-accent); margin-right:8px;"></i> (022) 7890-1234</p>
+                <p><i class="fas fa-envelope" style="color:var(--forest-accent); margin-right:8px;"></i> halo@sobatalam.id</p>
             </div>
         </div>
         <div class="footer-bottom">
-            &copy; 2026 Sobat Alam. All rights reserved.
+            &copy; 2026 Sobat Alam Outdoor Gear. All rights reserved. Tugas Pemrograman Web E-Commerce.
         </div>
     </footer>
 
-    <!-- Script utama -->
+    <!-- App Engine JavaScript -->
     <script src="app.js"></script>
 </body>
 </html>
