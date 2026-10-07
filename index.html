@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobat Alam | Beranda</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigasi Utama -->
+    <header class="navbar">
+        <div class="logo">Sobat Alam.</div>
+        <nav class="nav-links">
+            <a href="index.html" class="active">Beranda</a>
+            <a href="pria.html">Pria</a>
+            <a href="wanita.html">Wanita</a>
+            <a href="#" onclick="logout()" style="color: #D84315;">Logout</a>
+        </nav>
+        <div class="nav-icons">
+            <i class="fas fa-search" title="Cari Produk"></i>
+            <!-- Link menuju halaman keranjang -->
+            <a href="cart.html" style="text-decoration: none; color: inherit;">
+                <div class="cart-icon" title="Keranjang Belanja">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count">0</span>
+                </div>
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="hero">
+        <div class="hero-text">
+            <h1>Siap Untuk Petualangan Baru?</h1>
+            <p>Lengkapi kebutuhan mendaki dan camping Anda dengan perlengkapan kualitas terbaik.</p>
+        </div>
+    </section>
+
+    <!-- Kategori Tambahan -->
+    <section class="categories">
+        <div class="cat-card">Tenda & Shelter</div>
+        <div class="cat-card">Tas Carrier</div>
+        <div class="cat-card">Sepatu Trekking</div>
+        <div class="cat-card">Aksesoris</div>
+    </section>
+
+    <!-- Produk Section (Data akan diisi otomatis oleh app.js) -->
+    <section class="products">
+        <h2>Semua Koleksi Terbaru</h2>
+        <!-- data-category="all" memanggil semua barang -->
+        <div id="product-grid" class="product-grid" data-category="all"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">Sobat Alam.</div>
+            <div class="footer-links">
+                <p>Tentang Kami</p>
+                <p>Cara Pembelian</p>
+                <p>Kebijakan Pengembalian</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 Sobat Alam. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- Script utama -->
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koleksi Pria | Sobat Alam</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">Sobat Alam.</div>
+        <nav class="nav-links">
+            <a href="index.html">Beranda</a>
+            <a href="pria.html" class="active">Pria</a>
+            <a href="wanita.html">Wanita</a>
+            <a href="#" onclick="logout()" style="color: #D84315;">Logout</a>
+        </nav>
+        <div class="nav-icons">
+            <i class="fas fa-search"></i>
+            <a href="cart.html" style="text-decoration: none; color: inherit;">
+                <div class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count">0</span>
+                </div>
+            </a>
+        </div>
+    </header>
+
+    <section class="products" style="padding-top: 40px; min-height: 70vh;">
+        <h2>Koleksi Pria</h2>
+        <!-- data-category="pria" memanggil barang yang dikategorikan pria oleh admin -->
+        <div id="product-grid" class="product-grid" data-category="pria"></div>
+    </section>
+
+    <footer>
+        <div class="footer-bottom">
+            &copy; 2026 Sobat Alam. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

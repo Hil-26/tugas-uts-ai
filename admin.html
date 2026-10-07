@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">Admin Panel</div>
+        <nav class="nav-links">
+            <a href="#" onclick="logout()">Logout</a>
+        </nav>
+    </header>
+
+    <div style="padding: 40px 5%;">
+        <h2>Tambah Barang (Create)</h2>
+        <form id="form-add-product" style="display: flex; gap: 10px; margin-bottom: 30px;">
+            <input type="text" id="prod-name" placeholder="Nama Barang" required>
+            <input type="number" id="prod-price" placeholder="Harga" required>
+            <select id="prod-cat">
+                <option value="pria">Pria</option>
+                <option value="wanita">Wanita</option>
+            </select>
+            <input type="text" id="prod-icon" placeholder="Emoji (cth: ⛺)" required>
+            <button type="submit" class="btn-primary">Upload Barang</button>
+        </form>
+
+        <h2>Daftar Barang (Read & Delete)</h2>
+        <table border="1" width="100%" cellpadding="10" style="margin-bottom: 40px; text-align: left;">
+            <thead><tr><th>ID</th><th>Ikon</th><th>Nama</th><th>Harga</th><th>Kategori</th><th>Aksi</th></tr></thead>
+            <tbody id="admin-product-list"></tbody>
+        </table>
+
+        <h2>Status Pembayaran Pembeli</h2>
+        <table border="1" width="100%" cellpadding="10" style="text-align: left;">
+            <thead><tr><th>ID Order</th><th>Pembeli</th><th>Total Pembayaran</th><th>Status</th></tr></thead>
+            <tbody id="admin-order-list"></tbody>
+        </table>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Keranjang | Sobat Alam</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">Sobat Alam.</div>
+        <nav class="nav-links">
+            <a href="index.html">Beranda</a>
+            <a href="#" onclick="logout()" style="color: #D84315;">Logout</a>
+        </nav>
+    </header>
+
+    <div style="padding: 40px 5%; min-height: 80vh;">
+        <h2 style="margin-bottom: 30px;">Keranjang Belanja</h2>
+        
+        <div class="cart-wrapper">
+            <!-- Daftar Barang (Kiri) -->
+            <div class="cart-items" id="cart-list">
+                <!-- Data akan dimuat dari JS -->
+            </div>
+
+            <!-- Ringkasan (Kanan) -->
+            <div class="cart-summary">
+                <h3>Ringkasan Pesanan</h3>
+                <div class="summary-row">
+                    <span>Total Harga</span>
+                    <span id="cart-total">Rp 0</span>
+                </div>
+                <button onclick="checkout()" class="btn-primary" style="width: 100%; padding: 15px; font-size: 1.1rem;">
+                    Bayar Sekarang
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
